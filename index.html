@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sean Zhao - Red Hat Work Summary</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1a1a2e;
+    color: #eee;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 5px;
+    color: #e94560;
+  }
+  .subtitle {
+    text-align: center;
+    color: #888;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+  }
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+  }
+  .stat-card {
+    background: linear-gradient(135deg, #16213e, #0f3460);
+    border-radius: 12px;
+    padding: 20px 30px;
+    text-align: center;
+    min-width: 150px;
+    border: 1px solid #0f3460;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
+  .stat-card .number {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #e94560;
+  }
+  .stat-card .label {
+    font-size: 0.9em;
+    color: #aaa;
+    margin-top: 5px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .chart-container {
+    background: #16213e;
+    border-radius: 12px;
+    padding: 25px;
+    border: 1px solid #0f3460;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
+  .chart-container h2 {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    color: #e94560;
+    text-align: center;
+  }
+  .chart-container canvas {
+    max-height: 350px;
+  }
+  .full-width {
+    grid-column: 1 / -1;
+  }
+  .timeline-section {
+    grid-column: 1 / -1;
+    background: #16213e;
+    border-radius: 12px;
+    padding: 25px;
+    border: 1px solid #0f3460;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
+  .timeline-section h2 {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #e94560;
+    text-align: center;
+  }
+  .timeline {
+    position: relative;
+    padding: 10px 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #e94560;
+    transform: translateX(-50%);
+  }
+  .timeline-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    position: relative;
+  }
+  .timeline-item:nth-child(odd) {
+    flex-direction: row;
+  }
+  .timeline-item:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+  .timeline-content {
+    width: 44%;
+    background: #0f3460;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    border: 1px solid #1a4a7a;
+  }
+  .timeline-content .version {
+    color: #e94560;
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+  .timeline-content .date {
+    color: #888;
+    font-size: 0.85em;
+  }
+  .timeline-dot {
+    width: 14px;
+    height: 14px;
+    background: #e94560;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    border: 3px solid #1a1a2e;
+  }
+  .timeline-spacer {
+    width: 44%;
+  }
+  .platform-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .platform-tag {
+    background: #0f3460;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.85em;
+    border: 1px solid #1a4a7a;
+  }
+  .platform-tag .tag-label {
+    color: #e94560;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 3px;
+  }
+  .platform-tag .tag-items {
+    color: #aaa;
+    font-size: 0.8em;
+  }
+  footer {
+    text-align: center;
+    color: #555;
+    margin-top: 30px;
+    font-size: 0.85em;
+  }
+</style>
+</head>
+<body>
+
+<h1>Sean Zhao — Red Hat Work Summary</h1>
+<p class="subtitle">Senior QE for Red Hat Quay &nbsp;|&nbsp; Jan 2023 – May 2026</p>
+
+<!-- Top Stats -->
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="number">597+</div>
+    <div class="label">Total Commits</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">100+</div>
+    <div class="label">GitHub PRs</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">49</div>
+    <div class="label">Merged PRs</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">30</div>
+    <div class="label">PR Reviews</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">300+</div>
+    <div class="label">JIRA Tickets</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">14</div>
+    <div class="label">Repos Contributed</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">21</div>
+    <div class="label">Quay Releases</div>
+  </div>
+  <div class="stat-card">
+    <div class="number">3.5</div>
+    <div class="label">Years at Red Hat</div>
+  </div>
+</div>
+
+<!-- Strengths & Key Skills -->
+<div style="max-width: 1400px; margin: 0 auto 30px auto; display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+
+  <!-- Strengths -->
+  <div style="background: #16213e; border-radius: 12px; padding: 25px; border: 1px solid #0f3460; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+    <h2 style="font-size: 1.2em; margin-bottom: 18px; color: #e94560; text-align: center;">Core Strengths</h2>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="display: flex; align-items: flex-start; gap: 12px;">
+        <span style="color: #e94560; font-size: 1.4em; min-width: 30px; text-align: center;">&#9881;</span>
+        <div><span style="color: #eee; font-weight: bold;">Test Framework Architect</span><br><span style="color: #aaa; font-size: 0.85em;">Proven ability to build automation systems from the ground up — Go/Ginkgo E2E, Cypress GUI, Python async perf testing</span></div>
+      </div>
+      <div style="display: flex; align-items: flex-start; gap: 12px;">
+        <span style="color: #e9a045; font-size: 1.4em; min-width: 30px; text-align: center;">&#128270;</span>
+        <div><span style="color: #eee; font-weight: bold;">Complex Defect Analysis</span><br><span style="color: #aaa; font-size: 0.85em;">Excellent root cause analysis — 300+ JIRA bugs filed/tracked, including 8 crash bugs and blocker RCA reports</span></div>
+      </div>
+      <div style="display: flex; align-items: flex-start; gap: 12px;">
+        <span style="color: #4596e9; font-size: 1.4em; min-width: 30px; text-align: center;">&#128736;</span>
+        <div><span style="color: #eee; font-weight: bold;">CI/CD Pipeline Engineering</span><br><span style="color: #aaa; font-size: 0.85em;">Deep expertise in Jenkins, Prow, Konflux/Tekton — 200+ commits to CI shared libraries, 80+ Prow PRs</span></div>
+      </div>
+      <div style="display: flex; align-items: flex-start; gap: 12px;">
+        <span style="color: #1a8a5c; font-size: 1.4em; min-width: 30px; text-align: center;">&#9729;</span>
+        <div><span style="color: #eee; font-weight: bold;">Multi-Cloud & IaC</span><br><span style="color: #aaa; font-size: 0.85em;">Terraform (19 modules) + Ansible across AWS, GCP, Azure, OpenStack, vSphere, Nutanix — one-click cluster deployment</span></div>
+      </div>
+      <div style="display: flex; align-items: flex-start; gap: 12px;">
+        <span style="color: #533483; font-size: 1.4em; min-width: 30px; text-align: center;">&#129309;</span>
+        <div><span style="color: #eee; font-weight: bold;">Cross-Team Collaboration</span><br><span style="color: #aaa; font-size: 0.85em;">Vendor coordination (NetApp, Pure Storage, Hitachi), release gatekeeper, on-call support, knowledge sharing</span></div>
+      </div>
+      <div style="display: flex; align-items: flex-start; gap: 12px;">
+        <span style="color: #45e9c0; font-size: 1.4em; min-width: 30px; text-align: center;">&#128640;</span>
+        <div><span style="color: #eee; font-weight: bold;">Release Quality Governance</span><br><span style="color: #aaa; font-size: 0.85em;">QE sign-off authority for 21 releases, managed CVE/Embargo urgent release process, 30+ PR code reviews</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Skills -->
+  <div style="background: #16213e; border-radius: 12px; padding: 25px; border: 1px solid #0f3460; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+    <h2 style="font-size: 1.2em; margin-bottom: 18px; color: #e94560; text-align: center;">Key Technical Skills</h2>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="color: #eee; font-size: 0.9em; min-width: 140px;">Go / Ginkgo</span>
+        <div style="flex: 1; margin: 0 12px; background: #0f3460; border-radius: 6px; height: 14px; overflow: hidden;">
+          <div style="width: 92%; height: 100%; background: linear-gradient(90deg, #e94560, #ff6b9d); border-radius: 6px;"></div>
+        </div>
+        <span style="color: #aaa; font-size: 0.8em; min-width: 30px;">92%</span>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="color: #eee; font-size: 0.9em; min-width: 140px;">Python</span>
+        <div style="flex: 1; margin: 0 12px; background: #0f3460; border-radius: 6px; height: 14px; overflow: hidden;">
+          <div style="width: 88%; height: 100%; background: linear-gradient(90deg, #4596e9, #45e9c0); border-radius: 6px;"></div>
+        </div>
+        <span style="color: #aaa; font-size: 0.8em; min-width: 30px;">88%</span>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="color: #eee; font-size: 0.9em; min-width: 140px;">Groovy / Jenkins</span>
+        <div style="flex: 1; margin: 0 12px; background: #0f3460; border-radius: 6px; height: 14px; overflow: hidden;">
+          <div style="width: 90%; height: 100%; background: linear-gradient(90deg, #e9a045, #e9e045); border-radius: 6px;"></div>
+        </div>
+        <span style="color: #aaa; font-size: 0.8em; min-width: 30px;">90%</span>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="color: #eee; font-size: 0.9em; min-width: 140px;">Terraform / Ansible</span>
+        <div style="flex: 1; margin: 0 12px; background: #0f3460; border-radius: 6px; height: 14px; overflow: hidden;">
+          <div style="width: 85%; height: 100%; background: linear-gradient(90deg, #1a8a5c, #45e9c0); border-radius: 6px;"></div>
+        </div>
+        <span style="color: #aaa; font-size: 0.8em; min-width: 30px;">85%</span>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="color: #eee; font-size: 0.9em; min-width: 140px;">OpenShift / K8s</span>
+        <div style="flex: 1; margin: 0 12px; background: #0f3460; border-radius: 6px; height: 14px; overflow: hidden;">
+          <div style="width: 90%; height: 100%; background: linear-gradient(90deg, #e94560, #533483); border-radius: 6px;"></div>
+        </div>
+        <span style="color: #aaa; font-size: 0.8em; min-width: 30px;">90%</span>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="color: #eee; font-size: 0.9em; min-width: 140px;">Cypress / Playwright</span>
+        <div style="flex: 1; margin: 0 12px; background: #0f3460; border-radius: 6px; height: 14px; overflow: hidden;">
+          <div style="width: 78%; height: 100%; background: linear-gradient(90deg, #533483, #9045e9); border-radius: 6px;"></div>
+        </div>
+        <span style="color: #aaa; font-size: 0.8em; min-width: 30px;">78%</span>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="color: #eee; font-size: 0.9em; min-width: 140px;">Java / JUnit</span>
+        <div style="flex: 1; margin: 0 12px; background: #0f3460; border-radius: 6px; height: 14px; overflow: hidden;">
+          <div style="width: 82%; height: 100%; background: linear-gradient(90deg, #e96045, #e9a045); border-radius: 6px;"></div>
+        </div>
+        <span style="color: #aaa; font-size: 0.8em; min-width: 30px;">82%</span>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="color: #eee; font-size: 0.9em; min-width: 140px;">Shell / Linux</span>
+        <div style="flex: 1; margin: 0 12px; background: #0f3460; border-radius: 6px; height: 14px; overflow: hidden;">
+          <div style="width: 90%; height: 100%; background: linear-gradient(90deg, #45e9c0, #4596e9); border-radius: 6px;"></div>
+        </div>
+        <span style="color: #aaa; font-size: 0.8em; min-width: 30px;">90%</span>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="color: #eee; font-size: 0.9em; min-width: 140px;">AI / LLM Tools</span>
+        <div style="flex: 1; margin: 0 12px; background: #0f3460; border-radius: 6px; height: 14px; overflow: hidden;">
+          <div style="width: 72%; height: 100%; background: linear-gradient(90deg, #9045e9, #e94560); border-radius: 6px;"></div>
+        </div>
+        <span style="color: #aaa; font-size: 0.8em; min-width: 30px;">72%</span>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="color: #eee; font-size: 0.9em; min-width: 140px;">REST API Testing</span>
+        <div style="flex: 1; margin: 0 12px; background: #0f3460; border-radius: 6px; height: 14px; overflow: hidden;">
+          <div style="width: 88%; height: 100%; background: linear-gradient(90deg, #e9e045, #1a8a5c); border-radius: 6px;"></div>
+        </div>
+        <span style="color: #aaa; font-size: 0.8em; min-width: 30px;">88%</span>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="grid">
+
+  <!-- Chart 1: Commits by Repo (Doughnut) -->
+  <div class="chart-container">
+    <h2>Commits by Repository</h2>
+    <canvas id="commitsByRepo"></canvas>
+  </div>
+
+  <!-- Chart 2: Work Area Breakdown (Pie) -->
+  <div class="chart-container">
+    <h2>Work Area Breakdown</h2>
+    <canvas id="workArea"></canvas>
+  </div>
+
+  <!-- Chart 3: Quarterly Activity (Bar) -->
+  <div class="chart-container full-width">
+    <h2>Quarterly Commit Activity (All Sources)</h2>
+    <canvas id="quarterlyActivity"></canvas>
+  </div>
+
+  <!-- Chart 4: GitHub PR Status (Doughnut) -->
+  <div class="chart-container">
+    <h2>GitHub PR Status</h2>
+    <canvas id="prStatus"></canvas>
+  </div>
+
+  <!-- Chart 5: PR by Repo (Horizontal Bar) -->
+  <div class="chart-container">
+    <h2>GitHub PRs by Repository</h2>
+    <canvas id="prByRepo"></canvas>
+  </div>
+
+  <!-- Chart 6: Quay Version Timeline -->
+  <div class="timeline-section">
+    <h2>Quay Version Coverage Timeline</h2>
+    <canvas id="versionTimeline"></canvas>
+  </div>
+
+  <!-- Chart 7: Platform & Infrastructure Coverage -->
+  <div class="chart-container full-width">
+    <h2>Platform & Infrastructure Coverage</h2>
+    <div class="platform-grid">
+      <div class="platform-tag">
+        <span class="tag-label">Cloud</span>
+        <span class="tag-items">AWS, Azure, GCP, OpenStack, vSphere, Nutanix</span>
+      </div>
+      <div class="platform-tag">
+        <span class="tag-label">OCP</span>
+        <span class="tag-items">4.12 → 4.21 (10 versions)</span>
+      </div>
+      <div class="platform-tag">
+        <span class="tag-label">Storage</span>
+        <span class="tag-items">S3, CloudFront, Azure Blob, GCS, ODF, Ceph, Noobaa, Swift</span>
+      </div>
+      <div class="platform-tag">
+        <span class="tag-label">Database</span>
+        <span class="tag-items">PostgreSQL 13/15 (local, RDS, GCP SQL, Azure)</span>
+      </div>
+      <div class="platform-tag">
+        <span class="tag-label">Security</span>
+        <span class="tag-items">FIPS, ACS Scanning, TLS, AWS STS</span>
+      </div>
+      <div class="platform-tag">
+        <span class="tag-label">CI/CD</span>
+        <span class="tag-items">Jenkins, Prow, Konflux, Tekton, Terraform (1470 files), Ansible (17 playbooks)</span>
+      </div>
+      <div class="platform-tag">
+        <span class="tag-label">Testing</span>
+        <span class="tag-items">Cypress E2E, REST API, OCI Conformance, Perf, Go (Ginkgo), Python (asyncio)</span>
+      </div>
+      <div class="platform-tag">
+        <span class="tag-label">Languages</span>
+        <span class="tag-items">Go, Python, Groovy, JavaScript, Shell, HCL (Terraform)</span>
+      </div>
+      <div class="platform-tag">
+        <span class="tag-label">OS</span>
+        <span class="tag-items">RHEL 8 → RHEL 9 migration</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart 8: Key Milestones (Horizontal bar) -->
+  <div class="chart-container full-width">
+    <h2>Key Feature Milestones</h2>
+    <canvas id="milestones"></canvas>
+  </div>
+
+  <!-- Chart 9: Bug Tracking (from emails/goals) -->
+  <div class="chart-container">
+    <h2>Bugs Logged per Quarter (CY2025)</h2>
+    <canvas id="bugsLogged"></canvas>
+  </div>
+
+  <!-- Chart 10: QA Activities Radar -->
+  <div class="chart-container">
+    <h2>QA Skill Coverage (Radar)</h2>
+    <canvas id="qaRadar"></canvas>
+  </div>
+
+  <!-- Chart 11: Vendor/Storage Partner Testing -->
+  <div class="chart-container full-width">
+    <h2>Storage Backend & Vendor Integration Testing</h2>
+    <canvas id="vendorTesting"></canvas>
+  </div>
+
+  <!-- Chart 12: JIRA Bug Categories -->
+  <div class="chart-container">
+    <h2>JIRA Bugs Filed by Category</h2>
+    <canvas id="bugCategories"></canvas>
+  </div>
+
+  <!-- Chart 13: Konflux Release Participation -->
+  <div class="chart-container">
+    <h2>Konflux Releases Participated (by Version)</h2>
+    <canvas id="releaseVersions"></canvas>
+  </div>
+
+  <!-- Slack Channel Participation -->
+  <div class="chart-container full-width">
+    <h2>Slack Channel Participation (Jul 2025 - Apr 2026)</h2>
+    <canvas id="slackChannels"></canvas>
+  </div>
+
+  <!-- Key Highlights from Emails Section -->
+  <div class="chart-container full-width">
+    <h2>Key Highlights (from Emails & Documents)</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">Splunk Audit Log Testing (PROJQUAY-10169)</div>
+        <div style="color: #aaa; font-size: 0.85em;">Designed & executed 31-test automated suite covering core functionality, edge cases, and SPL injection prevention. Result: 31 PASSED, 0 FAILED, 0 BUGS.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">Pushgateway Root Cause Analysis (PROJQUAY-10083)</div>
+        <div style="color: #aaa; font-size: 0.85em;">Identified blocker bug: pushgateway binary was a directory instead of executable in Quay 3.16.0. Created version comparison, GUI testing guides, and PromQL monitoring queries. Traced to RHEL 8 -> 9 migration.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">CloudNativePG POC</div>
+        <div style="color: #aaa; font-size: 0.85em;">Authored POC test plan for CloudNativePG operator as enterprise PostgreSQL backend for Quay. Covers HA, backup/restore, cross-cluster geo-replication, and disaster recovery failover.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">NetApp ONTAP S3 Testing (Lead)</div>
+        <div style="color: #aaa; font-size: 0.85em;">Designated point person for Quay + NetApp ONTAP S3 integration. Coordinated directly with NetApp PMs, validated 10GB upload at 55MiB/s from AWS EC2.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">Pure Storage FlashBlade</div>
+        <div style="color: #aaa; font-size: 0.85em;">Active in Pure Storage validation testing on bare-metal OCP. Discovered and reported expired SSL certificate to Pure Storage partners, coordinating resolution.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">Org Mirror Bugs (4 filed)</div>
+        <div style="color: #aaa; font-size: 0.85em;">PROJQUAY-11026: Sync button status. PROJQUAY-11025: Schedule/Pending state inconsistency. PROJQUAY-11027: Cancel Sync clears Next Sync Date. PROJQUAY-10982: Cannot re-enable org mirror.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">Incident Response</div>
+        <div style="color: #aaa; font-size: 0.85em;">Participated in Quay.io DB CPU Outage RCA (ITN-2026-00095), credential leak post-mortems, leaked GitHub token incidents, and AWS suspicious activity responses.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">Prow CI Study & Presentation</div>
+        <div style="color: #aaa; font-size: 0.85em;">Created "Prow CI Study.pptx" presentation (2.9 MB) documenting Prow CI architecture and migration strategy for Quay testing infrastructure.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">21 Konflux Releases (3.9 - 3.17)</div>
+        <div style="color: #aaa; font-size: 0.85em;">Participated in release PRs across 12 Quay versions: 3.9.18-20, 3.10.18-20, 3.12.14-16, 3.13.11, 3.14.6-7, 3.15.3-4, 3.16.2-3, 3.17.0-1, plus OMR 2.0.10-11.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">Quay 3.17 Crash Bugs (8+ filed)</div>
+        <div style="color: #aaa; font-size: 0.85em;">Discovered and filed cluster of crash bugs PROJQUAY-10780 through 10788: multiple unique Quay app pod crash scenarios in 3.17 release candidate.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">CVE Tracking (7 unique CVEs)</div>
+        <div style="color: #aaa; font-size: 0.85em;">Tracked CVE-2025-61726 (memory), CVE-2025-61728/61729 (resource consumption), CVE-2025-68121, CVE-2026-24049, CVE-2025-58183, CVE-2024-34156 across clair/quay/operator components.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">Sparse Mirror & Immutability Testing</div>
+        <div style="color: #aaa; font-size: 0.85em;">Filed PROJQUAY-10921/22/23 (Sparse Manifest Mirror architecture issues) and PROJQUAY-10885/86 (Immutability policy regex bugs). New feature validation work.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">Quay.io Stage Performance Testing</div>
+        <div style="color: #aaa; font-size: 0.85em;">PERFSCALE-4119: Reproduce 502 errors. PERFSCALE-4461: Performance testing. QUAYIO-760: Sanity test on stage.quay.io. 16+ QUAYIO tickets tracked.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">Release Gatekeeper Role (Slack)</div>
+        <div style="color: #aaa; font-size: 0.85em;">QE sign-off authority -- directly asked "do we look good to release?" for embargo-driven Quay 3.14.7 and 3.17.1 releases. Confirmed P1+P2 regression pass for urgent CVE-driven releases.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">Trivy CVE Scanning</div>
+        <div style="color: #aaa; font-size: 0.85em;">Proactively scanned released images with Trivy. Flagged unfixed CVEs (PROJQUAY-10973, 10915, 10700, 10652) in Quay 3.16.3. Reported CVE-2025-61728 in quay-builder-v3-15.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">Quota Feature Bugs (6 filed)</div>
+        <div style="color: #aaa; font-size: 0.85em;">PROJQUAY-9834/37/48/59/60: Quota input box, scroll, audit log, Total Registry Size display issues. PROJQUAY-9874: Calculate Total Registry Size feature.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">IBM Z/Power Multi-Arch Testing</div>
+        <div style="color: #aaa; font-size: 0.85em;">Participated in #quay-rh-ibm-z-power-collab channel. Filed PROJQUAY-11200: Quay Operator logo issue on s390x and Power architectures.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">On-Call & Sustaining Support</div>
+        <div style="color: #aaa; font-size: 0.85em;">Participated in #oncall-quay rotation. Provided testing resources/guidance to sustaining team. Received: "we do prefer sustaining resource for most heavy lifting tests, thanks @Sean Zhao."</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">OCP Test Automation (58 commits)</div>
+        <div style="color: #aaa; font-size: 0.85em;">58 commits to openshift-tests-private: automated 20+ OCP test cases (OCP-62636, 62957, 63222, 64619, 65876, 66094, 66736, 67717, 68958), Cypress v12 upgrade, Microshift cases, SDN migration, HyperShift support.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">Terraform Infrastructure (1,470 files)</div>
+        <div style="color: #aaa; font-size: 0.85em;">19 Terraform modules: AWS (EC2, RDS, S3, CloudFront, STS), Aurora PostgreSQL, GCP Cloud SQL, OpenStack, Nutanix, Redis. Full IaC for multi-cloud Quay test environments.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">Python Automation Scripts</div>
+        <div style="color: #aaa; font-size: 0.85em;">autoprune.py (200 orgs/repos concurrent creation), create_quay_repo_concurrency.py (async API load), robot_fed.py & robot_fed_token_quay.py (OAuth2 federation testing), createuser.py.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">FBC Operator Catalogs</div>
+        <div style="color: #aaa; font-size: 0.85em;">Managed File-Based Catalogs for 3 operators: quay-operator (1.5MB+), quay-bridge-operator (1.2MB+), container-security-operator (750KB+). Covers stable channels 3.9-3.16.</div>
+      </div>
+
+      <div style="background: #0f3460; padding: 15px; border-radius: 8px; border: 1px solid #1a4a7a;">
+        <div style="color: #e94560; font-weight: bold; margin-bottom: 8px;">Standalone & Builder Configs</div>
+        <div style="color: #aaa; font-size: 0.85em;">Maintained standalone Quay deployment configs (RDS, SSL variants) and Quay Builder configurations across AWS, Azure, Ceph, Nutanix backends with 46+ config sets.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Team Appreciation Section -->
+  <div class="chart-container full-width" style="background: linear-gradient(135deg, #16213e, #1a3050);">
+    <h2>Team Recognition</h2>
+    <div style="margin-top: 10px;">
+      <div style="background: #0f3460; padding: 18px; border-radius: 8px; border-left: 4px solid #e94560; margin-bottom: 12px;">
+        <div style="color: #e9a045; font-style: italic; font-size: 0.95em;">"I have been lucky to have worked with and learned from you as we've put Quay releases out. Your hard work and incredible dedication to detail has always been inspiring to me."</div>
+        <div style="color: #888; font-size: 0.85em; margin-top: 8px;">-- Bill Dettelback, Sr. Engineering Manager, Quay / OpenShift Infrastructure Compliance</div>
+      </div>
+      <div style="background: #0f3460; padding: 18px; border-radius: 8px; border-left: 4px solid #e94560; margin-bottom: 12px;">
+        <div style="color: #e9a045; font-style: italic; font-size: 0.95em;">"Thanks for all the work you've done on the team, especially working with me on the Konflux migration."</div>
+        <div style="color: #888; font-size: 0.85em; margin-top: 8px;">-- Marcus Kok, Software Engineer, Quay</div>
+      </div>
+      <div style="background: #0f3460; padding: 18px; border-radius: 8px; border-left: 4px solid #e94560; margin-bottom: 12px;">
+        <div style="color: #e9a045; font-style: italic; font-size: 0.95em;">"You all were a critical part of this team's success and we will struggle to continue on without your skills and experience."</div>
+        <div style="color: #888; font-size: 0.85em; margin-top: 8px;">-- Brady Pratt, Engineering Manager, Quay</div>
+      </div>
+      <div style="background: #0f3460; padding: 18px; border-radius: 8px; border-left: 4px solid #e94560;">
+        <div style="color: #e9a045; font-style: italic; font-size: 0.95em;">"Thank you for the collaboration, support, and everything you brought to the team."</div>
+        <div style="color: #888; font-size: 0.85em; margin-top: 8px;">-- Singana Sivaram Naidu, Senior Software Quality Engineer</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>Generated on April 12, 2026 — Data from GitHub, GitLab, quay-tests, email archives (INBOX, Quay Team, Gmail Important, Gmail All Mail, Slack), and local documents</footer>
+
+<script>
+// Color palette
+const colors = ['#e94560','#0f3460','#533483','#1a8a5c','#e9a045','#4596e9','#e96045','#45e9c0','#9045e9','#e9e045'];
+const borderColors = colors.map(c => c);
+
+// Chart 1: Commits by Repo (Doughnut)
+new Chart(document.getElementById('commitsByRepo'), {
+  type: 'doughnut',
+  data: {
+    labels: [
+      'quay-automation (GitLab)',
+      'quay-automation (local)',
+      'openshift-tests-private',
+      'quay-konflux-configs',
+      'quay-fbcs',
+      'quay-tests',
+      'openshift-release (local)',
+      'cso-konflux',
+      'quay-builder-qemu',
+      'quay (core)',
+      'quay-builder',
+      'quay-perf-scripts',
+      'quay-konflux-components',
+      'clair-konflux'
+    ],
+    datasets: [{
+      data: [200, 163, 58, 48, 40, 36, 22, 18, 4, 3, 2, 1, 1, 1],
+      backgroundColor: [...colors, '#ff6b9d', '#a0e945', '#45a0e9', '#e9a0ff'],
+      borderColor: '#1a1a2e',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'right',
+        labels: { color: '#ccc', font: { size: 11 }, padding: 8 }
+      }
+    }
+  }
+});
+
+// Chart 2: Work Area Breakdown (Pie)
+new Chart(document.getElementById('workArea'), {
+  type: 'pie',
+  data: {
+    labels: [
+      'CI/CD Pipeline (Jenkins)',
+      'Prow CI (openshift/release)',
+      'Konflux Release Eng.',
+      'OCP Test Automation',
+      'Test Framework (quay-tests)',
+      'Terraform / IaC',
+      'Quay Core Fixes',
+      'Builder Images',
+      'Performance Testing'
+    ],
+    datasets: [{
+      data: [200, 80, 108, 58, 36, 30, 3, 6, 2],
+      backgroundColor: ['#e94560','#0f3460','#533483','#ff6b9d','#45e9c0','#e9e045','#1a8a5c','#e9a045','#4596e9'],
+      borderColor: '#1a1a2e',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'right',
+        labels: { color: '#ccc', font: { size: 11 }, padding: 8 }
+      }
+    }
+  }
+});
+
+// Chart 3: Quarterly Activity (Bar)
+new Chart(document.getElementById('quarterlyActivity'), {
+  type: 'bar',
+  data: {
+    labels: [
+      '2023 Q1','2023 Q2','2023 Q3','2023 Q4',
+      '2024 Q1','2024 Q2','2024 Q3','2024 Q4',
+      '2025 Q1','2025 Q2','2025 Q3','2025 Q4',
+      '2026 Q1','2026 Q2'
+    ],
+    datasets: [
+      {
+        label: 'quay-automation (GitLab)',
+        data: [30, 25, 18, 15, 20, 12, 8, 15, 18, 10, 12, 10, 5, 2],
+        backgroundColor: '#e94560'
+      },
+      {
+        label: 'GitHub Repos (code/)',
+        data: [0, 0, 5, 8, 10, 8, 6, 12, 15, 20, 25, 55, 80, 5],
+        backgroundColor: '#0f3460'
+      },
+      {
+        label: 'GitHub PRs',
+        data: [0, 1, 2, 1, 4, 3, 2, 3, 12, 10, 8, 8, 12, 4],
+        backgroundColor: '#533483'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      x: { stacked: true, ticks: { color: '#aaa' }, grid: { color: '#2a2a4e' } },
+      y: { stacked: true, ticks: { color: '#aaa' }, grid: { color: '#2a2a4e' }, title: { display: true, text: 'Count', color: '#aaa' } }
+    },
+    plugins: {
+      legend: { labels: { color: '#ccc' } }
+    }
+  }
+});
+
+// Chart 4: PR Status (Doughnut)
+new Chart(document.getElementById('prStatus'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Merged', 'Closed (test/WIP)', 'Open'],
+    datasets: [{
+      data: [49, 45, 2],
+      backgroundColor: ['#1a8a5c', '#e9a045', '#4596e9'],
+      borderColor: '#1a1a2e',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { color: '#ccc', font: { size: 12 }, padding: 15 }
+      }
+    }
+  }
+});
+
+// Chart 5: PRs by Repo (Horizontal Bar)
+new Chart(document.getElementById('prByRepo'), {
+  type: 'bar',
+  data: {
+    labels: [
+      'openshift/release',
+      'quay/quay-tests',
+      'quay/quay',
+      'quay/quay-builder',
+      'quay/quay-builder-qemu',
+      'quay/quay-perf-scripts',
+      'Marcusk19/quay-perf'
+    ],
+    datasets: [{
+      label: 'Merged',
+      data: [42, 30, 2, 2, 2, 1, 0],
+      backgroundColor: '#1a8a5c'
+    },{
+      label: 'Closed',
+      data: [38, 4, 1, 1, 0, 0, 1],
+      backgroundColor: '#e9a045'
+    },{
+      label: 'Open',
+      data: [0, 2, 0, 0, 0, 1, 1],
+      backgroundColor: '#4596e9'
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    scales: {
+      x: { stacked: true, ticks: { color: '#aaa' }, grid: { color: '#2a2a4e' } },
+      y: { stacked: true, ticks: { color: '#aaa' }, grid: { color: '#2a2a4e' } }
+    },
+    plugins: {
+      legend: { labels: { color: '#ccc' } }
+    }
+  }
+});
+
+// Chart 6: Quay Version Timeline (Gantt-style horizontal bar)
+new Chart(document.getElementById('versionTimeline'), {
+  type: 'bar',
+  data: {
+    labels: ['Quay 3.10','Quay 3.11','Quay 3.12','Quay 3.13','Quay 3.14','Quay 3.15','Quay 3.16','Quay 3.17'],
+    datasets: [{
+      label: 'Start Quarter (offset)',
+      data: [2, 4, 5, 7, 9, 11, 12, 13],
+      backgroundColor: 'transparent',
+      borderWidth: 0
+    },{
+      label: 'Duration (quarters)',
+      data: [2, 1, 2, 6, 2, 1, 2, 1],
+      backgroundColor: ['#e94560','#0f3460','#533483','#1a8a5c','#e9a045','#4596e9','#e96045','#9045e9'],
+      borderRadius: 6
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    scales: {
+      x: {
+        stacked: true,
+        ticks: {
+          color: '#aaa',
+          callback: function(val) {
+            const labels = ['','','2023 Q3','','2024 Q1','','2024 Q3','','2025 Q1','','2025 Q3','','2026 Q1','',''];
+            return labels[val] || '';
+          }
+        },
+        grid: { color: '#2a2a4e' },
+        max: 15
+      },
+      y: { stacked: true, ticks: { color: '#aaa' }, grid: { color: '#2a2a4e' } }
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            if (ctx.datasetIndex === 0) return '';
+            const versions = {
+              'Quay 3.10': '2023 Q3–Q4',
+              'Quay 3.11': '2024 Q1',
+              'Quay 3.12': '2024 Q2–Q3',
+              'Quay 3.13': '2024 Q4 – 2026 Q1 (+ Konflux)',
+              'Quay 3.14': '2025 Q1–Q2',
+              'Quay 3.15': '2025 Q3',
+              'Quay 3.16': '2025 Q4 – 2026 Q1',
+              'Quay 3.17': '2026 Q1'
+            };
+            return versions[ctx.label] || '';
+          }
+        }
+      }
+    }
+  }
+});
+
+// Chart 8: Key Milestones (Horizontal bar for effort/impact)
+new Chart(document.getElementById('milestones'), {
+  type: 'bar',
+  data: {
+    labels: [
+      'Nutanix Platform Support',
+      'Go Operator Test Cases',
+      'ACS Security Integration',
+      'FIPS Enablement',
+      'AWS STS Support',
+      'Konflux FBC Pipeline',
+      'Prow CI Framework (step-registry)',
+      'Operator Upgrade Testing',
+      'Jenkins Agent Migration',
+      'RHEL 8 → 9 Migration',
+      'Ceph/ODF Storage Support',
+      'CloudFront CDN Support',
+      'Quay Performance Testing',
+      'OCI Conformance Testing'
+    ],
+    datasets: [{
+      label: 'Estimated Commits',
+      data: [35, 20, 20, 12, 10, 25, 40, 15, 15, 12, 18, 8, 8, 5],
+      backgroundColor: [
+        '#e94560','#45e9c0','#0f3460','#533483','#1a8a5c','#e9a045','#4596e9',
+        '#ff6b9d','#e96045','#45e9c0','#9045e9','#e9e045','#e94560','#0f3460'
+      ],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    scales: {
+      x: { ticks: { color: '#aaa' }, grid: { color: '#2a2a4e' }, title: { display: true, text: 'Estimated Commits', color: '#aaa' } },
+      y: { ticks: { color: '#aaa', font: { size: 11 } }, grid: { color: '#2a2a4e' } }
+    },
+    plugins: {
+      legend: { display: false }
+    }
+  }
+});
+
+// Chart 9: Bugs Logged per Quarter
+new Chart(document.getElementById('bugsLogged'), {
+  type: 'bar',
+  data: {
+    labels: ['FY25 Q1', 'FY25 Q2', 'FY25 Q3', 'FY25 Q4+'],
+    datasets: [{
+      label: 'Bugs Logged',
+      data: [17, 10, 16, 15],
+      backgroundColor: ['#e94560', '#0f3460', '#533483', '#1a8a5c'],
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          afterBody: function(ctx) {
+            const notes = {
+              0: 'SLO: CVE/Blocker <= 24h, High <= 48h',
+              1: 'z-stream bugs verified at first opportunity',
+              2: '3.13 Y-stream bug verification',
+              3: 'Continued through 3.14-3.17 cycles'
+            };
+            return notes[ctx[0].dataIndex] || '';
+          }
+        }
+      }
+    },
+    scales: {
+      x: { ticks: { color: '#aaa' }, grid: { color: '#2a2a4e' } },
+      y: { ticks: { color: '#aaa' }, grid: { color: '#2a2a4e' }, title: { display: true, text: 'Count', color: '#aaa' } }
+    }
+  }
+});
+
+// Chart 10: QA Skill Coverage Radar
+new Chart(document.getElementById('qaRadar'), {
+  type: 'radar',
+  data: {
+    labels: [
+      'CI/CD Pipeline',
+      'API Testing',
+      'E2E/UI Testing',
+      'Operator Testing',
+      'Performance Testing',
+      'Security Testing',
+      'Storage Validation',
+      'Release Eng.',
+      'Bug Analysis',
+      'Vendor Coordination'
+    ],
+    datasets: [{
+      label: 'Skill Coverage',
+      data: [95, 80, 75, 90, 70, 65, 85, 90, 85, 80],
+      backgroundColor: 'rgba(233, 69, 96, 0.2)',
+      borderColor: '#e94560',
+      pointBackgroundColor: '#e94560',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: '#e94560'
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      r: {
+        beginAtZero: true,
+        max: 100,
+        ticks: { color: '#aaa', backdropColor: 'transparent', stepSize: 20 },
+        grid: { color: '#2a2a4e' },
+        angleLines: { color: '#2a2a4e' },
+        pointLabels: { color: '#ccc', font: { size: 10 } }
+      }
+    },
+    plugins: {
+      legend: { display: false }
+    }
+  }
+});
+
+// Chart 11: Vendor/Storage Testing (Horizontal bar)
+new Chart(document.getElementById('vendorTesting'), {
+  type: 'bar',
+  data: {
+    labels: [
+      'AWS S3',
+      'AWS CloudFront + S3',
+      'Azure Blob Storage',
+      'GCP Object Storage',
+      'Red Hat ODF/OCS',
+      'Red Hat Ceph (v5)',
+      'Noobaa (unmanaged TLS)',
+      'NetApp ONTAP S3',
+      'Pure Storage FlashBlade',
+      'Hitachi HCP',
+      'IBM Fusion Storage',
+      'Oracle Cloud S3',
+      'Swift Storage'
+    ],
+    datasets: [{
+      label: 'Testing Depth',
+      data: [95, 80, 85, 85, 90, 75, 70, 65, 60, 40, 30, 25, 50],
+      backgroundColor: [
+        '#e94560','#e96045','#0f3460','#4596e9','#533483','#9045e9','#45e9c0',
+        '#e9a045','#1a8a5c','#e9e045','#ff6b9d','#c0c0ff','#80c0a0'
+      ],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    scales: {
+      x: {
+        ticks: { color: '#aaa', callback: function(v) { return v + '%'; } },
+        grid: { color: '#2a2a4e' },
+        max: 100,
+        title: { display: true, text: 'Integration Depth', color: '#aaa' }
+      },
+      y: { ticks: { color: '#aaa', font: { size: 11 } }, grid: { color: '#2a2a4e' } }
+    },
+    plugins: {
+      legend: { display: false }
+    }
+  }
+});
+
+// Chart 12: JIRA Bug Categories (Doughnut)
+new Chart(document.getElementById('bugCategories'), {
+  type: 'doughnut',
+  data: {
+    labels: [
+      'Org Mirror (10)',
+      'UI / Usage Logs (12)',
+      'Upgrade Issues (6)',
+      'Operator / Install (7)',
+      'Quota Feature (6)',
+      'Splunk Integration (3)',
+      'Security / CVE (12)',
+      'Crash Bugs (8+)',
+      'Immutability / Sparse (5)',
+      'Perf / Quay.io (5)'
+    ],
+    datasets: [{
+      data: [10, 12, 6, 7, 6, 3, 12, 8, 5, 5],
+      backgroundColor: [
+        '#e94560','#0f3460','#533483','#1a8a5c','#ff6b9d','#e9a045',
+        '#4596e9','#e96045','#45e9c0','#9045e9'
+      ],
+      borderColor: '#1a1a2e',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'right',
+        labels: { color: '#ccc', font: { size: 10 }, padding: 6 }
+      }
+    }
+  }
+});
+
+// Chart 13: Konflux Release Versions (Bar)
+new Chart(document.getElementById('releaseVersions'), {
+  type: 'bar',
+  data: {
+    labels: ['3.9', '3.10', '3.12', '3.13', '3.14', '3.15', '3.16', '3.17', 'OMR'],
+    datasets: [{
+      label: 'Z-stream Releases',
+      data: [3, 3, 3, 2, 2, 2, 2, 2, 2],
+      backgroundColor: [
+        '#e94560','#0f3460','#533483','#1a8a5c','#e9a045',
+        '#4596e9','#e96045','#45e9c0','#9045e9'
+      ],
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color: '#aaa' }, grid: { color: '#2a2a4e' },
+           title: { display: true, text: 'Quay Version', color: '#aaa' } },
+      y: { ticks: { color: '#aaa', stepSize: 1 }, grid: { color: '#2a2a4e' },
+           title: { display: true, text: 'Releases', color: '#aaa' }, beginAtZero: true }
+    }
+  }
+});
+
+// Chart: Slack Channel Participation (Horizontal Bar)
+new Chart(document.getElementById('slackChannels'), {
+  type: 'bar',
+  data: {
+    labels: [
+      '#cluster_info (Flexy)',
+      '#team-quay-dev',
+      '#quay-qe',
+      '#wg-quay-konflux',
+      '#forum-openshift-qe',
+      '#quay-ui',
+      '#forum-qe-layered-product',
+      '#quay-rh-ibm-z-power',
+      '#help-rh-code-assist',
+      '#doconnor-directs',
+      '#sustaining-quay-onboarding',
+      '#quay-load-testing',
+      '#team-quay-bots',
+      '#oncall-quay',
+      '#quay-release-process'
+    ],
+    datasets: [{
+      label: 'Mentions / Activity',
+      data: [131, 128, 121, 74, 58, 37, 24, 15, 15, 11, 10, 9, 7, 5, 5],
+      backgroundColor: [
+        '#e94560','#0f3460','#533483','#1a8a5c','#e9a045','#4596e9','#e96045',
+        '#45e9c0','#9045e9','#e9e045','#ff6b9d','#c0c0ff','#80c0a0','#e94560','#0f3460'
+      ],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    scales: {
+      x: { ticks: { color: '#aaa' }, grid: { color: '#2a2a4e' },
+           title: { display: true, text: 'Mentions / Interactions', color: '#aaa' } },
+      y: { ticks: { color: '#aaa', font: { size: 10 } }, grid: { color: '#2a2a4e' } }
+    },
+    plugins: { legend: { display: false } }
+  }
+});
+</script>
+
+</body>
+</html>
